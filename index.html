@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CanSat Telemetry Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="dashboard-header">
+            <div class="brand">
+                <h1>CanSat Control Center</h1>
+                <div class="connection-status" id="status-indicator">
+                    <span class="status-dot disconnected"></span>
+                    <span id="status-text">Disconnected</span>
+                </div>
+            </div>
+            <div class="controls">
+                <button id="btn-simulate" class="btn btn-secondary">Run Simulation</button>
+                <button id="btn-connect" class="btn btn-primary">Connect to Pico (USB)</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Left Column: Primary Metrics & System State -->
+            <div class="sidebar">
+                <div class="live-metrics card">
+                    <h2>Live Telemetry</h2>
+                    <div class="metric-grid">
+                        <div class="metric-box">
+                            <span class="label">Altitude</span>
+                            <span class="value" id="val-alt">--</span>
+                            <span class="unit">m</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="label">Temperature</span>
+                            <span class="value" id="val-temp">--</span>
+                            <span class="unit">°C</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="label">Pressure</span>
+                            <span class="value" id="val-press">--</span>
+                            <span class="unit">hPa</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="label">Speed</span>
+                            <span class="value" id="val-speed">--</span>
+                            <span class="unit">km/h</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="label">GPS Sats</span>
+                            <span class="value" id="val-sats">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="terminal-container card">
+                    <h2>Raw Serial Output</h2>
+                    <div id="serial-terminal" class="terminal"></div>
+                </div>
+            </div>
+
+            <!-- Right Column: Charts Area -->
+            <div class="charts-area">
+                <div class="chart-card card">
+                    <div class="chart-header">
+                        <h3>Altitude Profile</h3>
+                        <span class="subtitle">Barometric Altitude vs. Time</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-altitude"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card card">
+                    <div class="chart-header">
+                        <h3>Atmospheric Profile</h3>
+                        <span class="subtitle">Temperature vs. Altitude</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-temperature"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card card">
+                    <div class="chart-header">
+                        <h3>Descent Dynamics</h3>
+                        <span class="subtitle">Velocity vs. Time</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-velocity"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card card">
+                    <div class="chart-header">
+                        <h3>Ground Track Drift</h3>
+                        <span class="subtitle">Latitude vs. Longitude</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-groundtrack"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
