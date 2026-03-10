@@ -254,8 +254,8 @@ function updateConnectionStatus(isConnected) {
         btn.classList.add('btn-secondary');
         btn.classList.remove('btn-primary');
     } else {
-        dot.className = 'status-dot disconnected';
-        text.innerText = 'Disconnected';
+        dot.className = 'status-dot connected';
+        text.innerText = 'Connected';
         btn.innerText = 'Connect to Pico (USB)';
         btn.classList.add('btn-primary');
         btn.classList.remove('btn-secondary');
