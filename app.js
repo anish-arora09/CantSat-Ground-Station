@@ -391,10 +391,9 @@ document.getElementById('btn-simulate').addEventListener('click', () => {
     const btn = document.getElementById('btn-simulate');
 
     if (isSimulating) {
-        btn.innerText = "Stop Simulation";
+        btn.innerText = "Stop";
         btn.style.borderColor = "var(--accent-red)";
         btn.style.color = "var(--accent-red)";
-        logToTerminal(">>> Generating Simulated Descent Data... <<<");
 
         let lines = sampleData.trim().split(/\r?\n/);
         let i = 0;
@@ -402,22 +401,24 @@ document.getElementById('btn-simulate').addEventListener('click', () => {
         // I've modified the simulation to generate synthetic data based on the sample start point 
         // to show a cool descent profile over 30 seconds rather than just repeating the 5 sample points
 
-        let simAlt = 97.9;
+        let simAlt = 350.0;
         let simSpeed = 0;
         let simLat = 51.356168;
         let simLon = 0.10259666;
+        let ticks = 0;
         let phase = 0; // 0 = start, 1 = drop, 2 = parachute
 
         simInterval = setInterval(() => {
+            ticks++;
             // Generate synthetic serial data line by line
             logToTerminal("----------"); parseSerialLine("----------");
 
             // Physics sim changes
-            if (phase === 0 && state.currentTime > 2) phase = 1; // Drop!
-            if (phase === 1 && state.currentTime > 8) phase = 2; // Chute deploy!
-            if (phase === 1) simSpeed += 9.8; // Freefall
-            if (phase === 2 && simSpeed > 5.0) simSpeed -= 15.0; // Rapid decel
-            if (simSpeed < 0) simSpeed = 4.5; // Terminal velocity
+            if (phase === 0 && ticks > 2) phase = 1; // Drop!
+            if (phase === 1 && ticks > 6) phase = 2; // Chute deploy after 4s freefall!
+            if (phase === 1) simSpeed += 35.0; // Freefall (approx 9.8m/s^2 * 3.6 for km/h)
+            if (phase === 2 && simSpeed > 18.0) simSpeed -= 25.0; // Rapid decel
+            if (simSpeed < 0) simSpeed = 18.0; // Terminal velocity for an "alright" parachute (5m/s = 18km/h)
             if (simAlt < 0) { simAlt = 0; simSpeed = 0; } // Landed
 
             simAlt -= (simSpeed * (1000 / 3600)); // convert kmh to m/s roughly
@@ -443,7 +444,7 @@ document.getElementById('btn-simulate').addEventListener('click', () => {
             if (simAlt <= 0) {
                 clearInterval(simInterval);
                 logToTerminal(">>> Simulation Complete: Touchdown <<<");
-                btn.innerText = "Run Simulation";
+                btn.innerText = "Start";
                 btn.style = "";
                 isSimulating = false;
             }
@@ -452,7 +453,7 @@ document.getElementById('btn-simulate').addEventListener('click', () => {
 
     } else {
         clearInterval(simInterval);
-        btn.innerText = "Run Simulation";
+        btn.innerText = "Start";
         btn.style = "";
         logToTerminal(">>> Simulation Stopped <<<");
     }
