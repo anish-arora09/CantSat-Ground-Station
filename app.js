@@ -448,7 +448,7 @@ document.getElementById('btn-simulate').addEventListener('click', () => {
                 isSimulating = false;
             }
 
-        }, 1000); // 1Hz telemetry
+        }, 250); // 4Hz simulation speed for a 30s finish time
 
     } else {
         clearInterval(simInterval);
