@@ -443,7 +443,6 @@ document.getElementById('btn-simulate').addEventListener('click', () => {
 
             if (simAlt <= 0) {
                 clearInterval(simInterval);
-                logToTerminal(">>> Simulation Complete: Touchdown <<<");
                 btn.innerText = "Start";
                 btn.style = "";
                 isSimulating = false;
@@ -455,6 +454,5 @@ document.getElementById('btn-simulate').addEventListener('click', () => {
         clearInterval(simInterval);
         btn.innerText = "Start";
         btn.style = "";
-        logToTerminal(">>> Simulation Stopped <<<");
     }
 });
